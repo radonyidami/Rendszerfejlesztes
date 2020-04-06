@@ -43,7 +43,7 @@ public class LoginS extends HttpServlet {
                 
             out.println("</head>");
             out.println("<body>");
-            out.println(fv());
+            out.println(fv2());
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,6 +65,8 @@ String fv(){
 "</form>";
     return g;
 }
+
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
