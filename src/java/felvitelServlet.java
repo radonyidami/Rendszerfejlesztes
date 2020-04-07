@@ -107,7 +107,7 @@ void felvisz(String a, String b, String c, String d, String e, String f, String 
             String x = "";
             String id,id1;
             indit in = new indit();
-            in.startConnection("piroska");
+            in.startConnection("");
             //byte[] encoded = Base64.encodeBase64(e.getBytes());
             
             x = "insert into domain values(null,'" + a + "','" + b + "','" + c + "','" + d + "');";
