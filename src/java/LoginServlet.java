@@ -82,7 +82,8 @@ public class LoginServlet extends HttpServlet {
                 dispatcher.forward(request, response);
             } else {
 
-                request.getRequestDispatcher("index.html").include(request, response);
+                request.getRequestDispatcher("index.jsp").include(request, response);
+                out.println("Rossz adatokat adott meg!");
             }
 
             out.close();
