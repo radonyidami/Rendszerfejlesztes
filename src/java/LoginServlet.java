@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
 
     }
 
@@ -70,23 +71,17 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         //request.getRequestDispatcher("index.html").include(request, response);  
-
-        String name = request.getParameter("felhnev");
-        felhasznaloka = name;
-        String password = request.getParameter("passwd");
+        HttpSession session = request.getSession(true);
+        String user = request.getParameter("felh_nev");
+        String password = request.getParameter("jelszo");
         RequestDispatcher dispatcher;
 
-            if (AuthHelper.isAllowedP(name, password)) {
-                dispatcher = request.getRequestDispatcher("piroskaS");
+            if (AuthHelper.isAllowedP(user, password)) {
+                session.setAttribute("user", user);
+                dispatcher = request.getRequestDispatcher("index.jsp");
                 dispatcher.forward(request, response);
-            } else if (AuthHelper.isAllowedF(name, password)) {
-                if (AuthHelper.isAllowedF(name, password)) {
-                    dispatcher = request.getRequestDispatcher("farkasS");
-                    dispatcher.forward(request, response);
-                }
             } else {
-                out.println("hello");
-                out.print("Bocs, elrontottad!");
+
                 request.getRequestDispatcher("index.html").include(request, response);
             }
 
