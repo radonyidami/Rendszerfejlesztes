@@ -78,14 +78,14 @@ public class registrationServlet extends HttpServlet {
         String jelszo = request.getParameter("jelszo");
         String nev1 = request.getParameter("vnev");
         String nev2 = request.getParameter("knev");
-
         String email = request.getParameter("email");
         String tel_szam = request.getParameter("tel_szam");
         String varos = request.getParameter("varos");
         String utca = request.getParameter("utca");
         String hazszam = request.getParameter("hazszam");
-        String szul_dat = request.getParameter("szul_dat");
+        String szul_dat = request.getParameter("szuldat");
         String checkboxes = request.getParameter("checkboxes");
+        System.out.println("---"+ szul_dat);
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -94,7 +94,7 @@ public class registrationServlet extends HttpServlet {
             Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/webshop_db", "root", "");
             System.out.println("Connection created");
 
-            PreparedStatement ps = con.prepareStatement("insert into felhasznalok(felh_nev, jelszo,vnev,knev ,email,tel_szam , varos , utca ,hazszam ,szul_dat , checkboxes ) values (?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = con.prepareStatement("insert into felhasznalok(felh_nev, jelszo,vnev,knev ,email,tel_szam , varos , utca ,hazszam ,szuldat , checkboxes ) values (?,?,?,?,?,?,?,?,?,?,?)");
             System.out.println("atment1");
 //            ResultSet rs = ps.getGeneratedKeys();
 //

@@ -27,13 +27,13 @@ class indit {
         
        
        String url = "jdbc:mysql://localhost/";
-        String dbName = "internet";
+        String dbName = "webshop_db";
         String driver = "com.mysql.jdbc.Driver";
         String user = felhasznaloka;
         String pass = "123456";
         try {
             Class.forName(driver).newInstance();
-            this.conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/internet", felhasznaloka, pass);
+            this.conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/webshop_db", felhasznaloka, pass);
 
             connected = true;
             return true;

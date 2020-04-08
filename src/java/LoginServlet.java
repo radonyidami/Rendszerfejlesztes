@@ -6,6 +6,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -75,18 +78,38 @@ public class LoginServlet extends HttpServlet {
         String user = request.getParameter("felh_nev");
         String password = request.getParameter("jelszo");
         RequestDispatcher dispatcher;
-
+            
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webshop_db", "root", "");
+            PreparedStatement pst = conn.prepareStatement("Select felh_nev,jelszo from felhasznalok where felh_nev=? and jelszo=?");
+                pst.setString(1, user);
+                pst.setString(2, password);
+                ResultSet rs = pst.executeQuery();
+        
             if (AuthHelper.isAllowedP(user, password)) {
                 session.setAttribute("user", user);
                 dispatcher = request.getRequestDispatcher("index.jsp");
                 dispatcher.forward(request, response);
-            } else {
+                
+            } 
+            else if(rs.next()){
+                session.setAttribute("user", user);
+                dispatcher = request.getRequestDispatcher("index.jsp");
+                dispatcher.forward(request, response);
+            }
+            else {
 
                 request.getRequestDispatcher("index.jsp").include(request, response);
                 out.println("Rossz adatokat adott meg!");
             }
-
-            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally{
+                out.close();
+        }
+        
 
         
     }
