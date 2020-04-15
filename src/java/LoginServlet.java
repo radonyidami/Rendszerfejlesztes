@@ -6,6 +6,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -53,6 +56,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
 
     }
 
@@ -70,27 +74,42 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         //request.getRequestDispatcher("index.html").include(request, response);  
-
-        String name = request.getParameter("felhnev");
-        felhasznaloka = name;
-        String password = request.getParameter("passwd");
+        HttpSession session = request.getSession(true);
+        String user = request.getParameter("felh_nev");
+        String password = request.getParameter("jelszo");
         RequestDispatcher dispatcher;
-
-            if (AuthHelper.isAllowedP(name, password)) {
-                dispatcher = request.getRequestDispatcher("piroskaS");
+            
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webshop_db", "root", "");
+            PreparedStatement pst = conn.prepareStatement("Select felh_nev,jelszo from felhasznalok where felh_nev=? and jelszo=?");
+                pst.setString(1, user);
+                pst.setString(2, password);
+                ResultSet rs = pst.executeQuery();
+        
+            if (AuthHelper.isAllowedP(user, password)) {
+                session.setAttribute("user", user);
+                dispatcher = request.getRequestDispatcher("index.jsp");
                 dispatcher.forward(request, response);
-            } else if (AuthHelper.isAllowedF(name, password)) {
-                if (AuthHelper.isAllowedF(name, password)) {
-                    dispatcher = request.getRequestDispatcher("farkasS");
-                    dispatcher.forward(request, response);
-                }
-            } else {
-                out.println("hello");
-                out.print("Bocs, elrontottad!");
-                request.getRequestDispatcher("index.html").include(request, response);
+                
+            } 
+            else if(rs.next()){
+                session.setAttribute("user", user);
+                dispatcher = request.getRequestDispatcher("index.jsp");
+                dispatcher.forward(request, response);
             }
+            else {
 
-            out.close();
+                request.getRequestDispatcher("index.jsp").include(request, response);
+                out.println("Rossz adatokat adott meg!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally{
+                out.close();
+        }
+        
 
         
     }

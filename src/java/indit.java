@@ -7,16 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author szsz
- */
 
 class indit {
     private Connection conn=null;java.sql.Statement stmt = null;
@@ -27,13 +18,13 @@ class indit {
         
        
        String url = "jdbc:mysql://localhost/";
-        String dbName = "internet";
+        String dbName = "webshop_db";
         String driver = "com.mysql.jdbc.Driver";
         String user = felhasznaloka;
         String pass = "123456";
         try {
             Class.forName(driver).newInstance();
-            this.conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/internet", felhasznaloka, pass);
+            this.conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/webshop_db", felhasznaloka, pass);
 
             connected = true;
             return true;
